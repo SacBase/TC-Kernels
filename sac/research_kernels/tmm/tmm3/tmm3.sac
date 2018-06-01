@@ -13,8 +13,17 @@ use CommandLine: {argc, argv};
 use String: {string};
 use Benchmarking: all;
 use Random: all;
+	
+// test1: M=128, K=32, N=256
+// test2: M=128, K=1024, N=1024
+// test3: M=128, K=4096, N=16384
+#define M 128
+#define K 4096
+#define N 16384
 
 #define RAND_MAX 2147483647
+
+specialize float[M,N] tmm(float[M,K] A, float[N,K] B);
 
 noinline
 float[.,.] tmm(float[.,.] A, float[.,.] B)
@@ -25,13 +34,6 @@ float[.,.] tmm(float[.,.] A, float[.,.] B)
 
 int main()
 {
-	// test1: M=128, K=32, N=256
-	// test2: M=128, K=1024, N=1024
-	// test3: M=128, K=4096, N=16384
-	#define M 128
-	#define K 4096
-	#define N 16384
-
 	A = genarray([M,K], tof(random(0, RAND_MAX))/tof(RAND_MAX));
 	B = genarray([N,K], tof(random(0, RAND_MAX))/tof(RAND_MAX));
 
